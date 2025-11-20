@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Confirmation - Oman Air</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; color: #333; }
+    header { background: #004b6f; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h2 { margin: 0; }
+    .lang-switch { background: white; color: #004b6f; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .container { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { margin-top: 0; color: #004b6f; }
+    .section { margin-bottom: 20px; }
+    .label { font-weight: bold; color: #555; }
+    .value { margin-bottom: 10px; }
+    .flight-box { border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-bottom: 10px; background: #fefefe; }
+    .barcode { width: 100%; height: 60px; background: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 6px); margin-top: 10px; }
+    .btn { background: #004b6f; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    .btn:hover { background: #0077a8; }
+    .footer { text-align: center; color: #777; font-size: 14px; margin-top: 30px; }
+    @media print { .btn, .footer, .lang-switch { display: none; } .container { box-shadow: none; border: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Oman Air - Booking Confirmation</h2>
+    <button class="lang-switch" onclick="toggleLang()">AR / EN</button>
+  </header>
+  <div class="container">
+    <h1>Electronic Ticket</h1>
+
+    <div class="section">
+      <div class="label">Booking Number:</div>
+      <div class="value">VX20251125</div>
+      <div class="label">Status:</div>
+      <div class="value" style="color: green;">✅ Confirmed</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Passenger Information:</div>
+      <div class="value">Name: Abdullah Khamees Al Kaabi</div>
+      <div class="value">Passport No: 13434652</div>
+      <div class="value">Nationality: Omani</div>
+      <div class="value">Phone: +968 71169118</div>
+      <div class="value">Email: boo90ka@gmail.com</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Outbound Flight:</div>
+      <div class="flight-box">
+        Airline: Oman Air<br>
+        Flight No: WY431<br>
+        From: Muscat (MCT) - 25 Nov 2025 - 21:50<br>
+        To: Bangkok (BKK) - 26 Nov 2025 - 07:30<br>
+        Connection: Thai Lion Air - SL123<br>
+        From: Bangkok (BKK) - 09:45<br>
+        To: Khon Kaen (KKC) - 11:35<br>
+        Class: Business<br>
+        Seat: 2A
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">Return Flight:</div>
+      <div class="flight-box">
+        Airline: Thai Lion Air - SL623<br>
+        From: Khon Kaen (KKC) - 5 Dec 2025 - 09:45<br>
+        To: Bangkok (BKK) - 10:30<br>
+        Connection: Oman Air - WY814<br>
+        From: Bangkok (BKK) - 14:30<br>
+        To: Muscat (MCT) - 17:35<br>
+        Class: Business<br>
+        Seat: 2A
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">Total Price:</div>
+      <div class="value">OMR 389.40</div>
+      <div class="label">Payment Method:</div>
+      <div class="value">Visa •••• 8264</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Ticket Barcode:</div>
+      <div class="barcode"></div>
+    </div>
+
+    <button class="btn" onclick="window.print()">📄 Download Booking (PDF)</button>
+
+    <div class="footer">
+      © 2025 Oman Air — Booking Confirmation Page
+    </div>
+  </div>
+
+  <script>
+    function toggleLang() {
+      alert("Language switch simulated: EN ↔ AR");
+    }
+  </script>
+</body>
+</html>
