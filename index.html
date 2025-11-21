@@ -1,103 +1,434 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <title>Booking Confirmation - Oman Air</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Booking Confirmation — Airways</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; color: #333; }
-    header { background: #004b6f; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-    header h2 { margin: 0; }
-    .lang-switch { background: white; color: #004b6f; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .container { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1 { margin-top: 0; color: #004b6f; }
-    .section { margin-bottom: 20px; }
-    .label { font-weight: bold; color: #555; }
-    .value { margin-bottom: 10px; }
-    .flight-box { border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-bottom: 10px; background: #fefefe; }
-    .barcode { width: 100%; height: 60px; background: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 6px); margin-top: 10px; }
-    .btn { background: #004b6f; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
-    .btn:hover { background: #0077a8; }
-    .footer { text-align: center; color: #777; font-size: 14px; margin-top: 30px; }
-    @media print { .btn, .footer, .lang-switch { display: none; } .container { box-shadow: none; border: none; } }
+    :root{
+      --brand:#0b4d6d; /* deep blue */
+      --brand-2:#0e6b75; /* teal */
+      --gold:#c8a04a;
+      --ink:#142933;
+      --muted:#6b7a80;
+      --bg:#f7fafb;
+      --card:#ffffff;
+      --border:#e5eaed;
+      --success:#1f9d64;
+      --danger:#ce3b3b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    /* Header */
+    .site-header{background:#fff;border-bottom:1px solid var(--border)}
+    .topbar{max-width:1080px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px}
+    .wing{width:28px;height:18px;background:linear-gradient(135deg,var(--gold),#e6c878);clip-path:polygon(0 50%, 20% 0, 100% 0, 75% 50%, 100% 100%, 20% 100%)}
+    .brand-text{display:flex;flex-direction:column;line-height:1}
+    .brand-en{font-weight:700;color:var(--brand)}
+    .brand-sub{font-size:12px;color:var(--muted)}
+    .nav{display:flex;align-items:center;gap:18px}
+    .nav a{color:var(--brand);text-decoration:none;font-weight:600}
+    .nav a:hover{color:var(--brand-2)}
+    .meta{display:flex;align-items:center;gap:12px;color:var(--muted)}
+    .meta .pill{border:1px solid var(--border);border-radius:16px;padding:4px 10px;color:var(--ink)}
+    .lang{cursor:pointer;border:1px solid var(--border);border-radius:16px;padding:4px 10px;background:#fff;color:var(--brand);font-weight:700}
+    /* Banner */
+    .banner{background:var(--brand-2);color:#fff}
+    .banner .wrap{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+    .banner .status{font-weight:700}
+    /* Container */
+    .container{max-width:1080px;margin:18px auto;padding:0 16px}
+    .title-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px}
+    .title h1{margin:0;color:var(--brand);font-size:26px}
+    .actions{display:flex;gap:8px}
+    .btn{padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--brand);font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--gold);color:#1d1b14;border:none}
+    .btn:hover{filter:brightness(1.05)}
+    /* Cards */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 10px rgba(20,51,59,0.04);margin-bottom:14px}
+    .card .pad{padding:14px}
+    /* Booking summary */
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .label{font-size:12px;color:var(--muted);margin:0}
+    .value{margin:3px 0 0 0;font-weight:700;color:var(--ink)}
+    .value.success{color:var(--success)}
+    /* Passenger grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    /* Table flights */
+    table{width:100%;border-collapse:collapse}
+    thead th{font-size:12px;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);padding:10px}
+    tbody td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
+    .carrier{display:flex;align-items:center;gap:10px}
+    .logo-sm{width:22px;height:22px;background:var(--gold);border-radius:3px}
+    .logo-sm.red{background:#d82020}
+    .pill-seat{display:inline-block;border:1px solid var(--border);border-radius:16px;padding:3px 8px;margin-inline-start:6px;color:var(--ink)}
+    .route{display:flex;align-items:center;gap:12px}
+    .code{font-weight:700;color:var(--brand)}
+    .time{color:var(--ink);font-weight:600}
+    .note{color:var(--muted);font-size:12px}
+    /* Barcode */
+    .barcode{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-top:1px dashed var(--border)}
+    .bars{height:64px;flex:1;background:repeating-linear-gradient(90deg,#000 0 3px,transparent 3px 6px),repeating-linear-gradient(90deg,#000 6px 7px,transparent 7px 12px)}
+    .qr{width:92px;height:92px;background:
+      radial-gradient(#000 30%,transparent 31%),
+      linear-gradient(#000 0 0);
+      background-size:16px 16px, 8px 8px;filter:contrast(140%)}
+    /* Notes */
+    .notes ul{margin:0;padding-inline-start:18px}
+    .notes li{margin:6px 0}
+    /* Footer */
+    .site-footer{color:var(--muted);text-align:center;padding:16px}
+    @media (max-width:780px){
+      .summary{grid-template-columns:repeat(2,1fr)}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .title-row{flex-direction:column;align-items:flex-start;gap:8px}
+    }
+    @media print{
+      .site-header,.banner,.actions,.site-footer{display:none}
+      .card{box-shadow:none;border-color:#ddd}
+      body{background:#fff}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Oman Air - Booking Confirmation</h2>
-    <button class="lang-switch" onclick="toggleLang()">AR / EN</button>
+  <!-- Header -->
+  <header class="site-header" data-i18n="header">
+    <div class="topbar">
+      <div class="brand">
+        <div class="wing" aria-hidden="true"></div>
+        <div class="brand-text">
+          <span class="brand-en">AIRWAYS</span>
+          <span class="brand-sub">Booking & Manage</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#" data-i18n-text="navPlanning">Planning</a>
+        <a href="#" data-i18n-text="navFlying">Flying with us</a>
+        <a href="#" data-i18n-text="navManage">Manage booking</a>
+        <div class="meta">
+          <span class="pill">OMR</span>
+          <button class="lang" id="langBtn">EN</button>
+        </div>
+      </nav>
+    </div>
   </header>
-  <div class="container">
-    <h1>Electronic Ticket</h1>
 
-    <div class="section">
-      <div class="label">Booking Number:</div>
-      <div class="value">VX20251125</div>
-      <div class="label">Status:</div>
-      <div class="value" style="color: green;">✅ Confirmed</div>
-    </div>
-
-    <div class="section">
-      <div class="label">Passenger Information:</div>
-      <div class="value">Name: Abdullah Khamees Al Kaabi</div>
-      <div class="value">Passport No: 13434652</div>
-      <div class="value">Nationality: Omani</div>
-      <div class="value">Phone: +968 71169118</div>
-      <div class="value">Email: boo90ka@gmail.com</div>
-    </div>
-
-    <div class="section">
-      <div class="label">Outbound Flight:</div>
-      <div class="flight-box">
-        Airline: Oman Air<br>
-        Flight No: WY431<br>
-        From: Muscat (MCT) - 25 Nov 2025 - 21:50<br>
-        To: Bangkok (BKK) - 26 Nov 2025 - 07:30<br>
-        Connection: Thai Lion Air - SL123<br>
-        From: Bangkok (BKK) - 09:45<br>
-        To: Khon Kaen (KKC) - 11:35<br>
-        Class: Business<br>
-        Seat: 2A
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="label">Return Flight:</div>
-      <div class="flight-box">
-        Airline: Thai Lion Air - SL623<br>
-        From: Khon Kaen (KKC) - 5 Dec 2025 - 09:45<br>
-        To: Bangkok (BKK) - 10:30<br>
-        Connection: Oman Air - WY814<br>
-        From: Bangkok (BKK) - 14:30<br>
-        To: Muscat (MCT) - 17:35<br>
-        Class: Business<br>
-        Seat: 2A
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="label">Total Price:</div>
-      <div class="value">OMR 389.40</div>
-      <div class="label">Payment Method:</div>
-      <div class="value">Visa •••• 8264</div>
-    </div>
-
-    <div class="section">
-      <div class="label">Ticket Barcode:</div>
-      <div class="barcode"></div>
-    </div>
-
-    <button class="btn" onclick="window.print()">📄 Download Booking (PDF)</button>
-
-    <div class="footer">
-      © 2025 Oman Air — Booking Confirmation Page
+  <!-- Banner -->
+  <div class="banner">
+    <div class="wrap">
+      <span class="status" data-i18n-text="bannerConfirmed">Booking confirmed.</span>
+      <span data-i18n-text="bannerTip">Please download your boarding pass for presentation at the airport.</span>
     </div>
   </div>
 
+  <main class="container">
+    <!-- Title + actions -->
+    <div class="title-row">
+      <div class="title">
+        <h1 data-i18n-text="titleETicket">Electronic ticket</h1>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="downloadPdf" data-i18n-text="btnDownload">Download PDF</button>
+        <button class="btn" data-i18n-text="btnManage">Manage booking</button>
+      </div>
+    </div>
+
+    <!-- Booking summary -->
+    <section class="card">
+      <div class="pad summary">
+        <div>
+          <p class="label" data-i18n-text="lblPNR">Booking number</p>
+          <p class="value">VX20251125</p>
+        </div>
+        <div>
+          <p class="label" data-i18n-text="lblStatus">Status</p>
+          <p class="value success" data-i18n-text="valConfirmed">Confirmed</p>
+        </div>
+        <div>
+          <p class="label" data-i18n-text="lblClass">Class</p>
+          <p class="value" data-i18n-text="valBusiness">Business</p>
+        </div>
+        <div>
+          <p class="label" data-i18n-text="lblTotal">Total amount</p>
+          <p class="value">OMR 389.40</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passenger -->
+    <section class="card">
+      <div class="pad">
+        <h3 data-i18n-text="secPassenger">Passenger details</h3>
+        <div class="grid">
+          <div>
+            <p class="label" data-i18n-text="lblName">Full name</p>
+            <p class="value">Abdullah Khamees Al Kaabi</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblTicket">Ticket number</p>
+            <p class="value">2232158264526</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblPassport">Passport</p>
+            <p class="value">13434652</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblNationality">Nationality</p>
+            <p class="value" data-i18n-text="valOmani">Omani</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblPhone">Phone</p>
+            <p class="value">+968 71169118</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblEmail">Email</p>
+            <p class="value">boo90ka@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flights table -->
+    <section class="card">
+      <div class="pad">
+        <h3 data-i18n-text="secFlights">Flights</h3>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n-text="thCarrier">Carrier</th>
+              <th data-i18n-text="thRoute">Route</th>
+              <th data-i18n-text="thTimes">Times</th>
+              <th data-i18n-text="thClassSeat">Class / Seat</th>
+              <th data-i18n-text="thStatus">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="carrier">
+                  <div class="logo-sm" aria-hidden="true"></div>
+                  <div>
+                    <div>Oman Air</div>
+                    <div class="note">WY431</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="route">
+                  <span class="code">MCT</span>
+                  <span>→</span>
+                  <span class="code">BKK</span>
+                </div>
+                <div class="note" data-i18n-text="lblConn">Connection</div>
+                <div class="note">BKK → KKC (SL123)</div>
+              </td>
+              <td>
+                <div class="time">25 Nov 2025 — 21:50</div>
+                <div class="time">26 Nov 2025 — 07:30</div>
+                <div class="note">BKK layover: 07:30 → 09:45</div>
+              </td>
+              <td>
+                <span data-i18n-text="valBusiness">Business</span>
+                <span class="pill-seat">2A</span>
+              </td>
+              <td><span class="value success" data-i18n-text="valConfirmed">Confirmed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="carrier">
+                  <div class="logo-sm red" aria-hidden="true"></div>
+                  <div>
+                    <div>Thai Lion Air</div>
+                    <div class="note">SL623</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="route">
+                  <span class="code">KKC</span>
+                  <span>→</span>
+                  <span class="code">BKK</span>
+                </div>
+                <div class="note">BKK → MCT (WY814)</div>
+              </td>
+              <td>
+                <div class="time">05 Dec 2025 — 09:45</div>
+                <div class="time">05 Dec 2025 — 10:30</div>
+                <div class="note">BKK: 14:30 → MCT 17:35</div>
+              </td>
+              <td>
+                <span data-i18n-text="valBusiness">Business</span>
+                <span class="pill-seat">2A</span>
+              </td>
+              <td><span class="value success" data-i18n-text="valConfirmed">Confirmed</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="barcode">
+          <div class="bars" aria-hidden="true"></div>
+          <div class="qr" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="card">
+      <div class="pad">
+        <h3 data-i18n-text="secPayment">Payment</h3>
+        <div class="grid">
+          <div>
+            <p class="label" data-i18n-text="lblMethod">Payment method</p>
+            <p class="value">Visa •••• 8264</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblAmount">Amount</p>
+            <p class="value">OMR 389.40</p>
+          </div>
+          <div>
+            <p class="label" data-i18n-text="lblPaid">Status</p>
+            <p class="value success" data-i18n-text="valPaid">Paid</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes -->
+    <section class="card notes">
+      <div class="pad">
+        <h3 data-i18n-text="secNotes">Travel notes</h3>
+        <ul>
+          <li><strong data-i18n-text="noteArriveLabel">Arrive early:</strong> <span data-i18n-text="noteArrive">Be at the airport at least 3 hours before departure.</span></li>
+          <li><strong data-i18n-text="noteDocsLabel">Documents:</strong> <span data-i18n-text="noteDocs">Ensure your passport and visa are valid.</span></li>
+          <li><strong data-i18n-text="noteBagsLabel">Baggage:</strong> <span data-i18n-text="noteBags">Business: 30kg checked + 10kg carry-on.</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 Airways — Booking confirmation page</div>
+  </footer>
+
   <script>
-    function toggleLang() {
-      alert("Language switch simulated: EN ↔ AR");
+    // Simple i18n dictionary
+    const dict = {
+      ar: {
+        header: null,
+        navPlanning: "التخطيط",
+        navFlying: "السفر معنا",
+        navManage: "إدارة الحجز",
+        bannerConfirmed: "تم تأكيد الحجز.",
+        bannerTip: "يرجى تنزيل بطاقة الصعود لتقديمها في المطار.",
+        titleETicket: "التذكرة الإلكترونية",
+        btnDownload: "تنزيل PDF",
+        btnManage: "إدارة الحجز",
+        lblPNR: "رقم الحجز",
+        lblStatus: "الحالة",
+        valConfirmed: "مؤكد",
+        lblClass: "الدرجة",
+        valBusiness: "رجال الأعمال",
+        lblTotal: "إجمالي المبلغ",
+        secPassenger: "بيانات المسافر",
+        lblName: "الاسم الكامل",
+        lblTicket: "رقم التذكرة",
+        lblPassport: "رقم الجواز",
+        lblNationality: "الجنسية",
+        valOmani: "عُماني",
+        lblPhone: "الهاتف",
+        lblEmail: "البريد الإلكتروني",
+        secFlights: "الرحلات",
+        thCarrier: "شركة الطيران",
+        thRoute: "المسار",
+        thTimes: "الأوقات",
+        thClassSeat: "الدرجة / المقعد",
+        thStatus: "الحالة",
+        lblConn: "الربط",
+        secPayment: "الدفع",
+        lblMethod: "طريقة الدفع",
+        lblAmount: "المبلغ",
+        lblPaid: "الحالة",
+        valPaid: "مدفوع",
+        secNotes: "ملاحظات السفر",
+        noteArriveLabel: "الوصول المبكر:",
+        noteArrive: "يتوجب الحضور قبل 3 ساعات من الإقلاع.",
+        noteDocsLabel: "الوثائق:",
+        noteDocs: "تأكد من صلاحية الجواز والتأشيرة.",
+        noteBagsLabel: "الأمتعة:",
+        noteBags: "رجال الأعمال: 30 كجم شحن + 10 كجم يد."
+      },
+      en: {
+        navPlanning: "Planning",
+        navFlying: "Flying with us",
+        navManage: "Manage booking",
+        bannerConfirmed: "Booking confirmed.",
+        bannerTip: "Please download your boarding pass for presentation at the airport.",
+        titleETicket: "Electronic ticket",
+        btnDownload: "Download PDF",
+        btnManage: "Manage booking",
+        lblPNR: "Booking number",
+        lblStatus: "Status",
+        valConfirmed: "Confirmed",
+        lblClass: "Class",
+        valBusiness: "Business",
+        lblTotal: "Total amount",
+        secPassenger: "Passenger details",
+        lblName: "Full name",
+        lblTicket: "Ticket number",
+        lblPassport: "Passport",
+        lblNationality: "Nationality",
+        valOmani: "Omani",
+        lblPhone: "Phone",
+        lblEmail: "Email",
+        secFlights: "Flights",
+        thCarrier: "Carrier",
+        thRoute: "Route",
+        thTimes: "Times",
+        thClassSeat: "Class / Seat",
+        thStatus: "Status",
+        lblConn: "Connection",
+        secPayment: "Payment",
+        lblMethod: "Payment method",
+        lblAmount: "Amount",
+        lblPaid: "Status",
+        valPaid: "Paid",
+        secNotes: "Travel notes",
+        noteArriveLabel: "Arrive early:",
+        noteArrive: "Be at the airport at least 3 hours before departure.",
+        noteDocsLabel: "Documents:",
+        noteDocs: "Ensure your passport and visa are valid.",
+        noteBagsLabel: "Baggage:",
+        noteBags: "Business: 30kg checked + 10kg carry-on."
+      }
+    };
+
+    const langBtn = document.getElementById('langBtn');
+    const downloadBtn = document.getElementById('downloadPdf');
+    let current = 'en';
+
+    function applyLang(code){
+      current = code;
+      document.documentElement.lang = code;
+      document.documentElement.dir = (code === 'ar' ? 'rtl' : 'ltr');
+      // update texts
+      document.querySelectorAll('[data-i18n-text]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-text');
+        const val = dict[code][key];
+        if(typeof val === 'string'){ el.textContent = val; }
+      });
+      langBtn.textContent = code.toUpperCase();
     }
+
+    langBtn.addEventListener('click', ()=>{
+      applyLang(current === 'en' ? 'ar' : 'en');
+    });
+
+    downloadBtn.addEventListener('click', ()=>{
+      window.print(); // save as PDF
+    });
+
+    // initial
+    applyLang('en');
   </script>
 </body>
 </html>
