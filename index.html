@@ -3,211 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TiTaPa - راحة البال والعناية بك</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>تيتابا - مساج طبيعي واسترخاء 💆‍♀️</title>
     
-    <!-- إضافة Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-
-        // بيانات Firebase الخاصة بك
-        const firebaseConfig = {
-            apiKey: "AIzaSyA6cIVcrYl2DyXuGPpdi8SFlR0VJH2XqMo",
-            authDomain: "animated-joy-475105-c9.firebaseapp.com",
-            projectId: "animated-joy-475105-c9",
-            storageBucket: "animated-joy-475105-c9.firebasestorage.app",
-            messagingSenderId: "481947148423",
-            appId: "1:481947148423:web:4e0a8b1c77e2dfc76a1822",
-            measurementId: "G-KJ8CEDEFJ2"
-        };
-
-        // تهيئة Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        // جعلها متاحة عالمياً
-        window.firebaseApp = {
-            db,
-            auth,
-            collection,
-            addDoc,
-            onSnapshot,
-            query,
-            orderBy,
-            serverTimestamp,
-            onAuthStateChanged,
-            signInAnonymously
-        };
-
-        console.log("Firebase initialized successfully!");
-    </script>
-
+    <!-- Open Graph Tags للفيسبوك -->
+    <meta property="og:title" content="تيتابا - مساج طبيعي واسترخاء 💆‍♀️">
+    <meta property="og:description" content="جلسات مساج طبيعي واسترخاء مع تيتابا. احجز جلستك الآن!">
+    <meta property="og:image" content="https://i.imgur.com/example-image.jpg">
+    <meta property="og:url" content="https://amazing-titapa.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="تيتابا - مساج طبيعي واسترخاء">
+    <meta name="twitter:description" content="جلسات مساج طبيعي مع تيتابا">
+    
     <style>
-        /* جميع أنماط CSS السابقة تبقى كما هي */
-        :root {
-            --primary: #FFB6C1;
-            --primary-light: #FFE4E6;
-            --primary-dark: #DB7093;
-            --secondary: #D8BFD8;
-            --accent: #FF69B4;
-            --gold: #D4AF37;
-            --light: #FFF9FB;
-            --dark: #4A4A4A;
-            --gray: #A5A5B5;
-            --success: #8FBC8F;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --radius: 20px;
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            font-family: Arial, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, #FFE4E6, #F8E9E9);
             min-height: 100vh;
+            color: #4A4A4A;
+        }
+        
+        .app {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(to right, #FF69B4, #DB7093);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .mode-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 5px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        
+        .mode-toggle button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .mode-toggle button.active {
+            background: white;
+            color: #DB7093;
+        }
+        
+        .chat-container {
+            padding: 20px;
+            height: 60vh;
             display: flex;
             flex-direction: column;
         }
-
-        /* باقي الأنماط تبقى كما هي */
-        /* ... */
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background: #FFF9FB;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+        
+        .bot-message {
+            background: white;
+            border: 1px solid #FFB6C1;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background: linear-gradient(to left, #FF69B4, #DB7093);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .typing {
+            display: none;
+            padding: 10px;
+            color: #DB7093;
+            font-style: italic;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding: 15px 0;
+        }
+        
+        #message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #FFB6C1;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .input-area button {
+            background: linear-gradient(to right, #FF69B4, #DB7093);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        
+        .payment-methods {
+            padding: 20px;
+            background: #FFF9FB;
+            border-top: 1px solid #FFE4E6;
+        }
+        
+        .payment-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #DB7093;
+            text-align: center;
+        }
+        
+        .payments {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .payment {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            border: 1px solid #FFB6C1;
+            font-size: 0.9rem;
+        }
+        
+        .firebase-status {
+            background: #E8F5E8;
+            padding: 10px;
+            text-align: center;
+            color: #2E7D32;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: #FFF9FB;
+            border-top: 1px solid #FFE4E6;
+            flex-wrap: wrap;
+        }
+        
+        .social-btn {
+            background: linear-gradient(to right, #FF69B4, #DB7093);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .contact-info {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #FF69B4, #DB7093);
+            color: white;
+        }
+        
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <!-- الهيكل HTML تبقى كما هي -->
-    <!-- ... -->
+    <div class="app">
+        <!-- الهيدر -->
+        <header class="header">
+            <div class="logo">تيتابا 💆‍♀️</div>
+            <div class="tagline">مساج طبيعي واسترخاء</div>
+            
+            <div class="mode-toggle">
+                <button id="bot-mode" class="active">البوت الذكي</button>
+                <button id="real-mode">أنا الحقيقي</button>
+            </div>
+        </header>
+
+        <!-- حالة النظام -->
+        <div class="firebase-status" id="firebase-status">
+            ✅ البوت الذكي جاهز للرد على العملاء
+        </div>
+
+        <!-- منطقة الدردشة -->
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message bot-message">
+                    🌸 مرحباً! أنا مساعد تيتابا الذكي<br>
+                    تعلمت من أسلوبها وسأرد عليك نيابة عنها
+                </div>
+            </div>
+
+            <!-- مؤشر الكتابة -->
+            <div class="typing" id="typing">
+                تيتابا تكتب <span>...</span>
+            </div>
+
+            <!-- منطقة الإدخال -->
+            <div class="input-area">
+                <input type="text" id="message-input" placeholder="اكتب رسالتك هنا...">
+                <button onclick="sendMessage()">إرسال 🕊️</button>
+            </div>
+        </div>
+
+        <!-- طرق الدفع -->
+        <div class="payment-methods">
+            <div class="payment-title">طرق الدفع الآمنة 💳</div>
+            <div class="payments">
+                <div class="payment">💳 بطاقة ائتمان</div>
+                <div class="payment">📱 PayPal</div>
+                <div class="payment">🏦 تحويل بنكي</div>
+                <div class="payment">🍎 Apple Pay</div>
+            </div>
+        </div>
+
+        <!-- معلومات الاتصال -->
+        <div class="contact-info">
+            📞 للاستفسار المباشر: <a href="tel:+966500000000">0500000000</a> |
+            💬 واتساب: <a href="https://wa.me/966500000000">اضغط هنا</a>
+        </div>
+
+        <!-- وسائل التواصل الاجتماعي -->
+        <div class="social-links">
+            <a href="https://facebook.com/yourpage" target="_blank" class="social-btn">
+                📘 فيسبوك
+            </a>
+            <a href="https://instagram.com/yourprofile" target="_blank" class="social-btn">
+                📷 انستغرام
+            </a>
+            <a href="https://t.me/yourchannel" target="_blank" class="social-btn">
+                ✈️ تيليجرام
+            </a>
+            <a href="https://wa.me/966500000000" target="_blank" class="social-btn">
+                💚 واتساب
+            </a>
+        </div>
+    </div>
 
     <script>
-        // دالة للاتصال بـ Firebase
-        async function initializeFirebase() {
-            try {
-                const { auth, signInAnonymously, onAuthStateChanged } = window.firebaseApp;
+        // نظام البوت الذكي
+        const smartBot = {
+            userStyle: [],
+            conversationHistory: [],
+            
+            responses: {
+                'مرحبا': ['أهلاً وسهلاً! 🌸 كيف يمكنني مساعدتك اليوم؟', 'مرحباً! أنا مساعد تيتابا الذكي 💖'],
+                'مساج': ['أقدم جلسات مساج استرخائي وعلاجي 💆‍♀️', 'أي نوع مساج تفضل؟ استرخاء أم علاجي؟'],
+                'سعر': ['الأسعار تبدأ من 150 درهم للجلسة الأساسية 💫', 'يمكنني إرسال قائمة الأسعار الكاملة'],
+                'حجز': ['لحجز موعد، اختر اليوم والوقت المناسبين 📅', 'أي يوم يناسبك للحجز؟'],
+                'شكرا': ['العفو! 🌹', 'لا شكر على واجب! سعيد بمساعدتك'],
+                'السلام عليكم': ['وعليكم السلام ورحمة الله 🌸', 'أهلاً وسهلاً!'],
+                'default': ['أهلاً! تيتابا سترد عليك قريباً 💖', 'شكراً على رسالتك! سأبلغ تيتابا']
+            },
+
+            learnFromUser(message, response) {
+                this.userStyle.push({
+                    input: message,
+                    output: response,
+                    timestamp: new Date()
+                });
+            },
+
+            generateResponse(message) {
+                this.conversationHistory.push(message);
+                const lowerMsg = message.toLowerCase();
                 
-                // تسجيل الدخول كمستخدم مجهول
-                await signInAnonymously(auth);
-                
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        console.log("User signed in:", user.uid);
-                        loadChatMessages();
-                        setupChatListener();
-                    } else {
-                        console.log("User signed out");
+                for (const [key, responses] of Object.entries(this.responses)) {
+                    if (lowerMsg.includes(key)) {
+                        const response = responses[Math.floor(Math.random() * responses.length)];
+                        this.learnFromUser(message, response);
+                        return response;
                     }
-                });
-            } catch (error) {
-                console.error("Firebase initialization error:", error);
-            }
-        }
-
-        // دالة لتحميل الرسائل السابقة
-        async function loadChatMessages() {
-            const { db, collection, query, orderBy, onSnapshot } = window.firebaseApp;
-            
-            const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
-            
-            onSnapshot(q, (snapshot) => {
-                const messagesContainer = document.getElementById('messages');
-                messagesContainer.innerHTML = '';
+                }
                 
-                snapshot.forEach((doc) => {
-                    const message = doc.data();
-                    addMessageToUI(message.text, message.sender, message.timestamp);
-                });
-            });
-        }
+                const defaultResponse = this.responses.default[Math.floor(Math.random() * this.responses.default.length)];
+                this.learnFromUser(message, defaultResponse);
+                return defaultResponse;
+            },
 
-        // دالة لإرسال رسالة جديدة
-        async function sendMessage(messageText, sender) {
-            const { db, collection, addDoc, serverTimestamp } = window.firebaseApp;
-            
-            try {
-                await addDoc(collection(db, "messages"), {
-                    text: messageText,
-                    sender: sender,
-                    timestamp: serverTimestamp()
-                });
-            } catch (error) {
-                console.error("Error sending message:", error);
+            getLearningStats() {
+                return {
+                    learnedPatterns: this.userStyle.length,
+                    totalConversations: this.conversationHistory.length
+                };
             }
-        }
+        };
 
-        // دالة لإضافة رسالة إلى الواجهة
-        function addMessageToUI(message, sender, timestamp) {
-            const messagesContainer = document.getElementById('messages');
-            const messageElement = document.createElement('div');
-            
-            const className = sender === 'user' ? 'user-message' : 'bot-message';
-            const displayName = sender === 'user' ? 'أنت' : 'تيتابا';
-            
-            const time = timestamp ? new Date(timestamp.toDate()).toLocaleTimeString('ar-EG', {
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : 'الآن';
-            
-            messageElement.className = `message ${className}`;
-            messageElement.innerHTML = `
-                ${displayName}: ${message}
-                <div class="message-time">${time}</div>
-            `;
-            
-            messagesContainer.appendChild(messageElement);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
+        // إدارة المحادثة
+        let currentMode = 'bot';
 
-        // معالجة إرسال النموذج
-        document.getElementById('chat-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('chat-input');
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const messages = document.getElementById('messages');
             const message = input.value.trim();
-            
+
             if (!message) return;
 
-            // إضافة رسالة المستخدم إلى Firebase
-            await sendMessage(message, 'user');
+            addMessage(message, 'user');
             input.value = '';
 
-            // محاكاة رد البوت
-            setTimeout(async () => {
-                const botResponse = generateResponse(message);
-                await sendMessage(botResponse, 'bot');
-            }, 1500);
-        });
-
-        // دالة توليد ردود البوت (نفس الدالة السابقة)
-        function generateResponse(message) {
-            const responses = {
-                'مرحبا': ['مرحباً! كيف يمكنني مساعدتك؟', 'أهلاً وسهلاً! كيف حالك؟'],
-                'كيف حالك': ['أنا بخير، شكراً لسؤالك!', 'الحمد لله، وأتمنى أن تكون أنت أيضاً بخير'],
-                'شكرا': ['العفو!', 'لا شكر على واجب'],
-                'default': ['أنا هنا لمساعدتك!', 'هل يمكنك توضيح سؤالك أكثر؟']
-            };
-
-            const lowerMessage = message.toLowerCase();
-            
-            for (const [key, value] of Object.entries(responses)) {
-                if (lowerMessage.includes(key)) {
-                    const randomIndex = Math.floor(Math.random() * value.length);
-                    return value[randomIndex];
-                }
+            if (currentMode === 'bot') {
+                showTyping();
+                
+                setTimeout(() => {
+                    hideTyping();
+                    const response = smartBot.generateResponse(message);
+                    addMessage(response, 'bot');
+                }, 1500);
             }
-            
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
         }
 
-        // تهيئة التطبيق عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeFirebase();
+        function addMessage(text, sender) {
+            const messages = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typing').style.display = 'block';
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').style.display = 'none';
+        }
+
+        // تبديل الوضع
+        document.getElementById('bot-mode').addEventListener('click', function() {
+            currentMode = 'bot';
+            this.classList.add('active');
+            document.getElementById('real-mode').classList.remove('active');
+            addMessage('🤖 تم تفعيل وضع البوت الذكي - سأرد نيابة عن تيتابا', 'bot');
         });
+
+        document.getElementById('real-mode').addEventListener('click', function() {
+            currentMode = 'real';
+            this.classList.add('active');
+            document.getElementById('bot-mode').classList.remove('active');
+            addMessage('👤 تم تفعيل الوضع اليدوي - أنت ترد على الرسائل بنفسك', 'bot');
+        });
+
+        // الإرسال بزر Enter
+        document.getElementById('message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // محادثة تجريبية
+        setTimeout(() => {
+            addMessage('أهلاً، أريد حجز جلسة مساج', 'user');
+            setTimeout(() => {
+                addMessage('أهلاً وسهلاً! 🌸 أي نوع مساج تفضل؟ استرخاء أم علاجي؟', 'bot');
+            }, 1000);
+        }, 2000);
     </script>
 </body>
 </html>
