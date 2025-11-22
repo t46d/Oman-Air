@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="th" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alice Shop — Evening Wear</title>
+  <title>Alice Shop — ชุดกลางคืนหรู</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- خطوط تايلندية + عربية + لاتينية -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Cairo:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0b0b0f;
-      --gold: #d4af37;
-      --pink: #e91e63;
-      --card-bg: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.08);
       --border: rgba(255, 255, 255, 0.18);
       --text: #f4f4f6;
       --muted: #cfcfd6;
-      --error: #ff4d4f;
-      --success: #51c878;
-      --focus: #eaa93b;
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --gold: #d4af37;
+      --accent: #e91e63;
+      --shadow: 0 12px 40px rgba(0,0,0,0.45);
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: "Cairo", "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: "Kanit", "Inter", "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
       background:
         radial-gradient(1200px 600px at 20% 10%, #1a1424 0%, transparent 60%),
@@ -33,6 +31,23 @@
         radial-gradient(700px 500px at 50% 100%, #221318 0%, transparent 60%),
         var(--bg-dark);
       overflow-x: hidden;
+    }
+
+    /* Animated color waves (variable colors) */
+    .waves {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(1200px 600px at 10% 80%, rgba(233, 30, 99, 0.25), transparent 70%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(212, 175, 55, 0.25), transparent 70%);
+      animation: hue 12s linear infinite;
+      filter: blur(40px) saturate(120%);
+    }
+    @keyframes hue { 
+      0% { filter: hue-rotate(0deg) blur(40px) saturate(120%); }
+      50% { filter: hue-rotate(60deg) blur(42px) saturate(130%); }
+      100% { filter: hue-rotate(0deg) blur(40px) saturate(120%); }
     }
 
     /* Navbar */
@@ -56,55 +71,34 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
     }
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background:
-        radial-gradient(80% 80% at 20% 20%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 70%),
-        linear-gradient(135deg, #1b1b22 0%, #2a1f18 45%, #3a2b1a 70%, #000 100%);
+    /* Logo: بنت بأسلوب أليس (SVG placeholder قابل للاستبدال) */
+    .logo-wrap {
+      width: 56px; height: 56px;
+      border-radius: 14px;
       border: 1px solid var(--border);
+      background: var(--glass);
       box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
+      backdrop-filter: blur(12px);
+      transform: perspective(600px) rotateY(-8deg) rotateX(3deg);
     }
-    .logo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(212,175,55,0.6), rgba(255,255,255,0.05));
-      mix-blend-mode: overlay;
-      opacity: 0.7;
-    }
+    .logo-wrap svg { width: 100%; height: 100%; display: block; }
     .brand-name {
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      font-size: 1.1rem;
-      color: var(--text);
+      font-weight: 700; letter-spacing: 0.6px; font-size: 1.15rem; color: var(--text);
     }
-    .tagline {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
+    .tagline { font-size: 0.9rem; color: var(--muted); }
+
     .actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
     }
     .lang-btn, .cta-outline {
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-      transition: all 0.2s ease;
+      padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text); background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);
+      cursor: pointer; transition: all 0.2s ease;
     }
-    .lang-btn:hover, .cta-outline:hover { border-color: var(--focus); color: var(--gold); }
+    .lang-btn:hover, .cta-outline:hover { border-color: var(--gold); color: var(--gold); }
 
     /* Hero */
     .hero {
@@ -115,169 +109,128 @@
       grid-template-columns: 1.2fr 1fr;
       gap: 22px;
     }
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+
     .card {
-      background: var(--card-bg);
+      background: var(--glass);
       border: 1px solid var(--border);
       border-radius: 18px;
       backdrop-filter: blur(18px) saturate(120%);
       box-shadow: var(--shadow);
     }
-    .gallery {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+
+    /* Gallery */
+    .gallery { padding: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 700px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+    .item { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); }
+    .item img { width: 100%; height: 160px; object-fit: cover; display: block; filter: saturate(110%) contrast(105%); transition: transform 0.25s ease; }
+    .item:hover img { transform: scale(1.03); }
+    .item.text-only {
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+      padding: 16px 16px 18px; min-height: 160px;
     }
-    .item {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    .item.text-only h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--gold); }
+    .item.text-only p { margin: 0 0 10px; font-size: 0.92rem; color: var(--muted); }
+    .mini-btn {
+      padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text); background: rgba(255,255,255,0.06);
+      cursor: pointer; transition: all 0.2s ease;
     }
-    .item img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      display: block;
-      filter: saturate(110%) contrast(105%);
-      transition: transform 0.25s ease;
-    }
-    .item:hover img { transform: scale(1.02); }
+    .mini-btn:hover { border-color: var(--gold); color: var(--gold); }
+
     .ribbon {
-      position: absolute;
-      top: 10px;
-      inset-inline-start: 10px;
-      background: linear-gradient(135deg, #7b5a12, var(--gold));
-      color: #101010;
-      padding: 4px 10px;
-      font-size: 0.78rem;
-      border-radius: 10px;
-      font-weight: 700;
+      position: absolute; top: 10px; left: 10px;
+      background: linear-gradient(135deg, #7b5a12, var(--gold)); color: #101010;
+      padding: 4px 10px; font-size: 0.78rem; border-radius: 10px; font-weight: 700;
       box-shadow: 0 4px 12px rgba(212,175,55,0.35);
     }
 
     /* Form */
-    .form {
-      padding: 24px;
-      display: grid;
-      gap: 14px;
-    }
-    .form h2 {
-      margin: 0 0 6px;
-      font-size: 1.15rem;
-      color: var(--gold);
-      letter-spacing: 0.3px;
-    }
-    .sub {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-    .label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
+    .form { padding: 24px; display: grid; gap: 14px; }
+    .form h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--gold); letter-spacing: 0.3px; }
+    .sub { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
+    .field { display: grid; gap: 8px; }
+    .label { font-weight: 600; font-size: 0.95rem; color: var(--text); }
     .input, .select, .btn {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      backdrop-filter: blur(10px);
+      width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08); color: var(--text); outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; backdrop-filter: blur(10px);
     }
     .input::placeholder { color: #bdbdc5; }
-    .input:focus, .select:focus {
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px rgba(234, 169, 59, 0.15);
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 600px) {
-      .grid-2 { grid-template-columns: 1fr; }
-    }
+    .input:focus, .select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
     .btn {
-      background: linear-gradient(135deg, #7b2347, var(--pink));
-      border: none;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      cursor: pointer;
+      background: linear-gradient(135deg, #7b2347, var(--accent)); border: none; font-weight: 700; letter-spacing: 0.2px; cursor: pointer;
+      transform: translateZ(0); transition: transform 0.2s ease, filter 0.2s ease;
     }
-    .btn:hover { filter: brightness(1.08); }
-    .note {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-    .error {
-      color: var(--error);
-      font-size: 0.9rem;
-      margin-top: -4px;
-    }
+    .btn:hover { filter: brightness(1.08); transform: translateZ(0) scale(1.02); }
+
+    .note { font-size: 0.85rem; color: var(--muted); }
+    .error { color: #ff4d4f; font-size: 0.9rem; margin-top: -4px; }
     .toast {
-      position: fixed;
-      bottom: 18px;
-      inset-inline-start: 18px;
-      background: rgba(30, 50, 30, 0.65);
-      color: #eaffea;
-      border: 1px solid rgba(80,160,100,0.4);
-      padding: 10px 14px;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      font-size: 0.9rem;
-      display: none;
+      position: fixed; bottom: 18px; left: 18px; background: rgba(30, 50, 30, 0.65); color: #eaffea;
+      border: 1px solid rgba(80,160,100,0.4); padding: 10px 14px; border-radius: 12px;
+      backdrop-filter: blur(10px); box-shadow: var(--shadow); font-size: 0.9rem; display: none;
     }
 
     /* Footer */
-    .footer {
-      max-width: 1100px;
-      margin: 18px auto 40px;
-      padding: 0 20px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .footer { max-width: 1100px; margin: 18px auto 40px; padding: 0 20px; color: var(--muted);
+      display: flex; align-items: center; justify-content: space-between; }
     .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: var(--gold);
-      font-weight: 600;
+      display: inline-block; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06); color: var(--gold); font-weight: 600;
     }
   </style>
 </head>
 <body>
+  <div class="waves" aria-hidden="true"></div>
+
   <!-- Navbar -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="#" class="brand" aria-label="Alice Shop Home">
-        <div class="logo" aria-hidden="true"></div>
+        <div class="logo-wrap" title="Alice Shop logo">
+          <!-- شعار بنت بأسلوب أليس (SVG Placeholder). استبدله بصورة شعارك الحقيقي عند الحاجة -->
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#3a2b1a"/>
+                <stop offset="100%" stop-color="#000000"/>
+              </linearGradient>
+              <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f7d6c5"/>
+                <stop offset="100%" stop-color="#e8b9a3"/>
+              </linearGradient>
+              <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="rgba(212,175,55,0.7)"/>
+                <stop offset="100%" stop-color="rgba(255,255,255,0.05)"/>
+              </linearGradient>
+            </defs>
+            <!-- شعر -->
+            <ellipse cx="50" cy="48" rx="32" ry="30" fill="url(#hair)"/>
+            <!-- وجه -->
+            <ellipse cx="50" cy="52" rx="20" ry="18" fill="url(#face)"/>
+            <!-- عينان بسيطتان -->
+            <circle cx="44" cy="50" r="2.4" fill="#3b2b2b"/>
+            <circle cx="56" cy="50" r="2.4" fill="#3b2b2b"/>
+            <!-- شريط/قوس شعر -->
+            <path d="M35 40 q8 -10 22 0 q-8 10 -22 0Z" fill="#1f1f27"/>
+            <!-- لمعة ذهبية خفيفة -->
+            <rect x="0" y="0" width="100" height="100" fill="url(#shine)" opacity="0.35"/>
+          </svg>
+        </div>
         <div>
           <div class="brand-name">Alice Shop</div>
-          <div class="tagline" id="tagline">Evening wear for unforgettable nights</div>
+          <div class="tagline" id="tagline">ชุดกลางคืนสำหรับค่ำคืนที่น่าจดจำ</div>
         </div>
       </a>
       <div class="actions">
+        <button class="lang-btn" onclick="setLang('th')">ไทย</button>
         <button class="lang-btn" onclick="setLang('ar')">العربية</button>
         <button class="lang-btn" onclick="setLang('en')">English</button>
-        <button class="cta-outline" onclick="scrollToForm()" id="ctaTop">Order now</button>
+        <button class="cta-outline" onclick="scrollToForm()" id="ctaTop">สั่งตอนนี้</button>
       </div>
     </div>
   </nav>
@@ -287,30 +240,35 @@
     <!-- Gallery -->
     <div class="card">
       <div class="gallery" aria-label="Featured evening dresses">
-        <!-- استخدم صورك الحقيقية هنا -->
+        <!-- منتجات مع صور (استبدل الروابط بصورك) -->
         <div class="item">
           <img src="https://images.unsplash.com/photo-1540575467063-178a50b2c2f4?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 1">
-          <div class="ribbon" id="rb1">New</div>
+          <div class="ribbon" id="rb1">ใหม่</div>
         </div>
         <div class="item">
           <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 2">
-          <div class="ribbon" id="rb2">Limited</div>
+          <div class="ribbon" id="rb2">พิเศษ</div>
         </div>
         <div class="item">
           <img src="https://images.unsplash.com/photo-1519741491150-1f6e6a3b56b4?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 3">
-          <div class="ribbon" id="rb3">Best seller</div>
+          <div class="ribbon" id="rb3">ขายดี</div>
         </div>
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1520975954732-35ddda4b1db1?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 4">
-          <div class="ribbon" id="rb4">New</div>
+
+        <!-- منتجات نصية فقط -->
+        <div class="item text-only">
+          <h3 id="t1">เดรสกลางคืนยาว สีดำ</h3>
+          <p id="tp1">ผ้าพรีเมียม เหมาะสำหรับงานพิเศษ</p>
+          <button class="mini-btn" onclick="scrollToForm()" id="tb1">สั่งเลย</button>
         </div>
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1495880544078-0a285edb0e88?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 5">
-          <div class="ribbon" id="rb5">Limited</div>
+        <div class="item text-only">
+          <h3 id="t2">ชุดสั้น เงางาม สีทอง</h3>
+          <p id="tp2">ดีไซน์โมเดิร์น หลายไซซ์</p>
+          <button class="mini-btn" onclick="scrollToForm()" id="tb2">สั่งเลย</button>
         </div>
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1519177690989-6f3b54fcbafe?q=80&w=1080&auto=format&fit=crop" alt="Elegant evening dress 6">
-          <div class="ribbon" id="rb6">Best seller</div>
+        <div class="item text-only">
+          <h3 id="t3">ลูกไม้สีแดง สำหรับค่ำคืนพิเศษ</h3>
+          <p id="tp3">สัมผัสนุ่มและสวยหรู</p>
+          <button class="mini-btn" onclick="scrollToForm()" id="tb3">สั่งเลย</button>
         </div>
       </div>
     </div>
@@ -318,53 +276,78 @@
     <!-- Form card -->
     <div class="card">
       <form class="form" onsubmit="handleSubmit(event)">
-        <h2 id="formTitle">طلب سريع عبر واتساب</h2>
-        <p class="sub" id="formSub">اختاري عدد القطع وأدخلي البيانات ليتم إرسال الطلب مباشرة</p>
+        <h2 id="formTitle">สั่งด่วนผ่าน WhatsApp</h2>
+        <p class="sub" id="formSub">เลือกจำนวนชิ้นและกรอกข้อมูลเพื่อส่งคำสั่งซื้อ</p>
 
         <div class="grid-2">
           <div class="field">
-            <label class="label" id="piecesLabel">عدد القطع</label>
+            <label class="label" id="piecesLabel">จำนวนชิ้น</label>
             <select class="select" id="pieces">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
             </select>
           </div>
           <div class="field">
-            <label class="label" id="regionLabel">المنطقة</label>
-            <input type="text" class="input" id="region" placeholder="مثال: الخوير، مسقط" />
+            <label class="label" id="regionLabel">โซน/พื้นที่</label>
+            <input type="text" class="input" id="region" placeholder="เช่น Al Khuwair, Muscat" />
           </div>
         </div>
 
         <div class="field">
-          <label class="label" id="phoneLabel">رقم الهاتف</label>
+          <label class="label" id="phoneLabel">หมายเลขโทรศัพท์</label>
           <input type="tel" class="input" id="phone" placeholder="+968 9xxxxxxx" />
           <div class="error" id="phoneErr" style="display:none;"></div>
         </div>
 
-        <button class="btn" id="sendBtn" type="submit">إرسال الطلب عبر واتساب</button>
-        <div class="note" id="note">سنتواصل معك لتأكيد الطلب وتحديد التوصيل</div>
+        <button class="btn" id="sendBtn" type="submit">ส่งคำสั่งซื้อผ่าน WhatsApp</button>
+        <div class="note" id="note">เราจะติดต่อเพื่อยืนยันและจัดส่ง</div>
       </form>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="badge" id="badge">Premium night collection</div>
+    <div class="badge" id="badge">คอลเลกชันกลางคืนพรีเมียม</div>
     <div id="footNote">© Alice Shop — Muscat, Oman</div>
   </footer>
 
   <!-- Toast -->
-  <div class="toast" id="toast">تم تجهيز طلبك جاري تحويلك إلى واتساب…</div>
+  <div class="toast" id="toast">เตรียมคำสั่งซื้อ… กำลังไปยัง WhatsApp</div>
 
   <script>
     // WhatsApp number (Oman)
     const WHATSAPP_NUMBER = "96898076978";
 
-    // Localization
+    // Localization (Thai default, Arabic/English optional)
     const i18n = {
+      th: {
+        dir: "ltr",
+        tagline: "ชุดกลางคืนสำหรับค่ำคืนที่น่าจดจำ",
+        ctaTop: "สั่งตอนนี้",
+        rb: ["ใหม่", "พิเศษ", "ขายดี"],
+        formTitle: "สั่งด่วนผ่าน WhatsApp",
+        formSub: "เลือกจำนวนชิ้นและกรอกข้อมูลเพื่อส่งคำสั่งซื้อ",
+        piecesLabel: "จำนวนชิ้น",
+        regionLabel: "โซน/พื้นที่",
+        phoneLabel: "หมายเลขโทรศัพท์",
+        sendBtn: "ส่งคำสั่งซื้อผ่าน WhatsApp",
+        note: "เราจะติดต่อเพื่อยืนยันและจัดส่ง",
+        badge: "คอลเลกชันกลางคืนพรีเมียม",
+        footNote: "© Alice Shop — Muscat, Oman",
+        placeholders: { region: "เช่น Al Khuwair, Muscat", phone: "+968 9xxxxxxx" },
+        toast: "เตรียมคำสั่งซื้อ… กำลังไปยัง WhatsApp",
+        errPhone: "กรุณากรอกเบอร์โอมานที่ขึ้นต้นด้วย +968 หรือ 968",
+        t: {
+          t1: "เดรสกลางคืนยาว สีดำ",
+          tp1: "ผ้าพรีเมียม เหมาะสำหรับงานพิเศษ",
+          t2: "ชุดสั้น เงางาม สีทอง",
+          tp2: "ดีไซน์โมเดิร์น หลายไซซ์",
+          t3: "ลูกไม้สีแดง สำหรับค่ำคืนพิเศษ",
+          tp3: "สัมผัสนุ่มและสวยหรู",
+          tb: "สั่งเลย"
+        },
+        waMsg: (pieces, region, phone) =>
+          `สวัสดี ต้องการสั่งซื้อ ${pieces} ชิ้น ชุดกลางคืน.%0Aโซน: ${encodeURIComponent(region)}%0Aโทร: ${encodeURIComponent(phone)}%0Aร้าน: Alice Shop`
+      },
       ar: {
         dir: "rtl",
         tagline: "ملابس سهرة لإطلالات لا تُنسى",
@@ -379,12 +362,18 @@
         note: "سنتواصل معك لتأكيد الطلب وتحديد التوصيل",
         badge: "تشكيلة ليلة فاخرة",
         footNote: "© Alice Shop — مسقط، عمان",
-        placeholders: {
-          region: "مثال: الخوير، مسقط",
-          phone: "+968 9xxxxxxx"
-        },
+        placeholders: { region: "مثال: الخوير، مسقط", phone: "+968 9xxxxxxx" },
         toast: "تم تجهيز طلبك جاري تحويلك إلى واتساب…",
         errPhone: "رجاءً أدخلي رقم هاتف عماني صحيح يبدأ بـ +968 أو 968",
+        t: {
+          t1: "فستان سهرة طويل أسود",
+          tp1: "خامة فاخرة مناسبة للمناسبات الخاصة",
+          t2: "فستان قصير ذهبي لامع",
+          tp2: "تصميم عصري بمقاسات متعددة",
+          t3: "فستان دانتيل أحمر للسهرات",
+          tp3: "لمسة ناعمة وفخامة",
+          tb: "اطلبي الآن"
+        },
         waMsg: (pieces, region, phone) =>
           `مرحبا، أرغب في طلب ${pieces} قطعة من فساتين السهرة.%0Aالمنطقة: ${encodeURIComponent(region)}%0Aرقم الهاتف: ${encodeURIComponent(phone)}%0Aالمتجر: Alice Shop`
       },
@@ -402,18 +391,24 @@
         note: "We’ll contact you to confirm and arrange delivery",
         badge: "Premium night collection",
         footNote: "© Alice Shop — Muscat, Oman",
-        placeholders: {
-          region: "e.g., Al Khuwair, Muscat",
-          phone: "+968 9xxxxxxx"
-        },
+        placeholders: { region: "e.g., Al Khuwair, Muscat", phone: "+968 9xxxxxxx" },
         toast: "Preparing your order… redirecting to WhatsApp",
         errPhone: "Please enter a valid Oman phone number starting with +968 or 968",
+        t: {
+          t1: "Long black evening dress",
+          tp1: "Premium fabric, perfect for special events",
+          t2: "Short golden shiny dress",
+          tp2: "Modern design, multiple sizes",
+          t3: "Red lace for special nights",
+          tp3: "Soft touch and luxurious look",
+          tb: "Order now"
+        },
         waMsg: (pieces, region, phone) =>
           `Hello, I’d like to order ${pieces} evening wear piece(s).%0ARegion: ${encodeURIComponent(region)}%0APhone: ${encodeURIComponent(phone)}%0AStore: Alice Shop`
       }
     };
 
-    let currentLang = "ar";
+    let currentLang = "th";
 
     function setLang(lang) {
       currentLang = lang;
@@ -430,9 +425,17 @@
       document.getElementById("rb1").innerText = t.rb[0];
       document.getElementById("rb2").innerText = t.rb[1];
       document.getElementById("rb3").innerText = t.rb[2];
-      document.getElementById("rb4").innerText = t.rb[0];
-      document.getElementById("rb5").innerText = t.rb[1];
-      document.getElementById("rb6").innerText = t.rb[2];
+
+      // Text-only items
+      document.getElementById("t1").innerText = t.t.t1;
+      document.getElementById("tp1").innerText = t.t.tp1;
+      document.getElementById("t2").innerText = t.t.t2;
+      document.getElementById("tp2").innerText = t.t.tp2;
+      document.getElementById("t3").innerText = t.t.t3;
+      document.getElementById("tp3").innerText = t.t.tp3;
+      document.getElementById("tb1").innerText = t.t.tb;
+      document.getElementById("tb2").innerText = t.t.tb;
+      document.getElementById("tb3").innerText = t.t.tb;
 
       // Form
       document.getElementById("formTitle").innerText = t.formTitle;
@@ -451,7 +454,7 @@
       document.getElementById("region").placeholder = t.placeholders.region;
       document.getElementById("phone").placeholder = t.placeholders.phone;
 
-      // Toast content
+      // Toast
       document.getElementById("toast").innerText = t.toast;
     }
 
@@ -460,10 +463,8 @@
     }
 
     function validatePhone(raw) {
-      // Normalize
       const phone = raw.replace(/\s+/g, "");
-      // Accept formats: +9689xxxxxxx or 9689xxxxxxx or 9xxxxxxx
-      const reIntl = /^\+?9689\d{6,7}$/; // Oman mobile typically 8 digits starting with 9
+      const reIntl = /^\+?9689\d{6,7}$/; // Oman mobile typically: 9xxxxxxx
       const reLocal = /^9\d{6,7}$/;
       return reIntl.test(phone) || reLocal.test(phone);
     }
@@ -479,10 +480,9 @@
 
       if (!region) {
         errEl.style.display = "block";
-        errEl.innerText = currentLang === "ar" ? "رجاءً أدخلي المنطقة" : "Please enter your region";
+        errEl.innerText = currentLang === "ar" ? "رجاءً أدخلي المنطقة" : (currentLang === "th" ? "กรุณากรอกพื้นที่" : "Please enter your region");
         return;
       }
-
       if (!validatePhone(phone)) {
         errEl.style.display = "block";
         errEl.innerText = t.errPhone;
@@ -502,8 +502,8 @@
       setTimeout(() => { window.location.href = url; }, 1200);
     }
 
-    // Init
-    setLang("ar");
+    // Init Thai by default
+    setLang("th");
   </script>
 </body>
-      </html>
+  </html>
